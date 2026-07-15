@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thiyagarajan Gurusamy | BIM Modeler — MECH</title>
+<meta name="description" content="Thiyagarajan Gurusamy — Mechanical BIM Modeler based in Bangalore. 10+ years in HVAC/ACMV drafting, Revit MEP modeling, Navisworks clash detection, Enscape rendering and Revit family creation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+// theme-a page render aagurdhukku munnadi-ye set panrom — light flash avoid panna
+(function(){
+  var t=localStorage.getItem('theme');
+  if(!t && matchMedia('(prefers-color-scheme: dark)').matches) t='dark';
+  if(t) document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<style>
+/* ============================================================
+   COLOR SYSTEM — unga existing palette. Hex maathanumna
+   indha block-la mattum change pannunga, site full-a update aagum.
+   ============================================================ */
+:root{
+  --accent:        hsl(250, 69%, 61%);   /* primary purple  (#6E57E0) */
+  --accent-dark:   hsl(250, 57%, 53%);   /* hover purple */
+  --accent-soft:   hsl(250, 92%, 85%);   /* light purple tint */
+  --accent-ghost:  hsl(250, 60%, 97%);   /* faint purple wash */
+  --ink:           hsl(250, 24%, 12%);   /* headings */
+  --body:          hsl(250, 10%, 32%);   /* body text */
+  --muted:         hsl(250, 8%, 52%);    /* captions */
+  --line:          hsl(250, 20%, 88%);   /* rules / borders */
+  --bg:            hsl(250, 60%, 99%);   /* page background */
+  --surface:       #ffffff;
+
+  --display: "Space Grotesk", sans-serif;
+  --sans: "IBM Plex Sans", sans-serif;
+  --mono: "IBM Plex Mono", monospace;
+
+  --max: 1120px;
+  --radius: 4px;
+}
+
+/* ============ DARK THEME — same purple, dark canvas ============ */
+[data-theme="dark"]{
+  --accent:        hsl(250, 80%, 70%);   /* purple lifted for dark bg contrast */
+  --accent-dark:   hsl(250, 75%, 62%);
+  --accent-soft:   hsl(250, 40%, 34%);
+  --accent-ghost:  hsl(250, 28%, 17%);
+  --ink:           hsl(250, 40%, 94%);
+  --body:          hsl(250, 14%, 74%);
+  --muted:         hsl(250, 8%, 56%);
+  --line:          hsl(250, 16%, 22%);
+  --bg:            hsl(250, 24%, 9%);
+  --surface:       hsl(250, 22%, 12%);
+}
+[data-theme="dark"] .grid-bg{
+  background-image:
+    linear-gradient(hsla(250,60%,75%,.06) 1px, transparent 1px),
+    linear-gradient(90deg, hsla(250,60%,75%,.06) 1px, transparent 1px);
+}
+[data-theme="dark"] header{background:hsla(250,24%,9%,.85)}
+[data-theme="dark"] .bottom-nav{background:hsla(250,24%,9%,.92)}
+[data-theme="dark"] .btn-solid{color:hsl(250,24%,10%)}
+html{color-scheme:light}
+[data-theme="dark"]{color-scheme:dark}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  color:var(--body);
+  background:var(--bg);
+  line-height:1.65;
+  font-size:16.5px;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* blueprint grid backdrop */
+.grid-bg{
+  background-image:
+    linear-gradient(hsla(250,40%,60%,.07) 1px, transparent 1px),
+    linear-gradient(90deg, hsla(250,40%,60%,.07) 1px, transparent 1px);
+  background-size:32px 32px;
+}
+
+h1,h2,h3,h4{font-family:var(--display);color:var(--ink);line-height:1.15;letter-spacing:-.015em}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* mono eyebrow labels — drawing-sheet annotations */
+.tag{
+  font-family:var(--mono);
+  font-size:.72rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--accent);
+  display:inline-flex;
+  align-items:center;
+  gap:.6em;
+}
+.tag::before{content:"";width:22px;height:1px;background:var(--accent)}
+
+/* ============ NAV ============ */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  background:hsla(250,60%,99%,.85);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-family:var(--display);font-weight:700;font-size:1.15rem;color:var(--ink)}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{
+  font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--body);transition:color .2s;
+}
+.nav-links a:hover{color:var(--accent)}
+.menu-btn{display:none;background:none;border:1px solid var(--line);border-radius:var(--radius);
+  padding:8px 12px;font-family:var(--mono);font-size:.75rem;cursor:pointer;color:var(--ink)}
+
+/* ============ HERO ============ */
+.hero{padding:170px 0 110px;position:relative;overflow:hidden}
+.hero .tag{margin-bottom:22px}
+.hero h1{
+  font-size:clamp(2.6rem, 6.4vw, 4.4rem);
+  font-weight:700;
+  max-width:15ch;
+}
+.hero h1 em{font-style:normal;color:var(--accent);white-space:nowrap}
+/* dimension line under the role — CAD annotation */
+.dim{
+  display:inline-flex;flex-direction:column;margin-top:26px;
+  font-family:var(--mono);font-size:.78rem;color:var(--muted);letter-spacing:.06em;
+}
+.dim .rule{
+  position:relative;height:1px;background:var(--accent);width:100%;margin-bottom:8px;
+}
+.dim .rule::before,.dim .rule::after{
+  content:"";position:absolute;top:-5px;width:1px;height:11px;background:var(--accent);
+}
+.dim .rule::before{left:0}
+.dim .rule::after{right:0}
+.hero p.lead{max-width:54ch;margin-top:22px;font-size:1.06rem}
+.hero-cta{margin-top:38px;display:flex;gap:16px;flex-wrap:wrap}
+.btn{
+  font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:14px 26px;border-radius:var(--radius);display:inline-block;transition:.2s;
+}
+.btn-solid{background:var(--accent);color:#fff}
+.btn-solid:hover{background:var(--accent-dark);transform:translateY(-2px)}
+.btn-line{border:1px solid var(--line);color:var(--ink);background:var(--surface)}
+.btn-line:hover{border-color:var(--accent);color:var(--accent)}
+
+/* hero stats strip */
+.stats{
+  margin-top:72px;border:1px solid var(--line);background:var(--surface);
+  border-radius:var(--radius);display:grid;grid-template-columns:repeat(3,1fr);
+}
+.stat{padding:26px 30px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:none}
+.stat b{font-family:var(--display);font-size:2rem;color:var(--ink);display:block;font-weight:700}
+.stat b i{font-style:normal;color:var(--accent)}
+.stat small{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+/* crosshair marker decoration */
+.cross{position:absolute;width:18px;height:18px;opacity:.5}
+.cross::before,.cross::after{content:"";position:absolute;background:var(--accent)}
+.cross::before{left:50%;top:0;width:1px;height:100%}
+.cross::after{top:50%;left:0;height:1px;width:100%}
+
+/* ============ SECTIONS ============ */
+section{padding:96px 0}
+.sec-head{margin-bottom:52px}
+.sec-head h2{font-size:clamp(1.9rem,3.6vw,2.7rem);margin-top:14px}
+.sec-head p{margin-top:10px;color:var(--muted);max-width:56ch}
+
+/* ============ ABOUT ============ */
+.about{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.about-grid{display:grid;grid-template-columns:340px 1fr;gap:64px;align-items:start}
+.portrait{
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;position:relative;
+  background:var(--accent-ghost);
+}
+.portrait img{width:100%;aspect-ratio:1/1.08;object-fit:cover;filter:saturate(.95)}
+.portrait figcaption{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);padding:10px 14px;border-top:1px solid var(--line);background:var(--surface);
+  display:flex;justify-content:space-between;
+}
+.about-copy p+p{margin-top:16px}
+.about-copy strong{color:var(--ink)}
+.lang-strip{
+  margin-top:26px;font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);border-top:1px dashed var(--line);padding-top:16px;
+}
+.lang-strip b{color:var(--accent);font-weight:500}
+
+/* ============ SKILLS ============ */
+.skill-sub{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin:44px 0 18px;display:flex;align-items:center;gap:14px;
+}
+.skill-sub::after{content:"";flex:1;height:1px;background:var(--line)}
+.skill-sub:first-of-type{margin-top:0}
+.skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+.skill{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px 22px;transition:.25s;position:relative;
+}
+.skill:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 14px 34px hsla(250,60%,50%,.10)}
+.skill .lvl{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);position:absolute;top:16px;right:16px;
+  border:1px solid var(--accent-soft);border-radius:20px;padding:3px 9px;background:var(--accent-ghost);
+}
+.skill h3{font-size:1.02rem;margin-bottom:5px;padding-right:86px}
+.skill p{font-size:.85rem;color:var(--muted)}
+.skill .bar{height:3px;background:var(--accent-ghost);border-radius:2px;margin-top:18px;overflow:hidden}
+.skill .bar i{display:block;height:100%;background:var(--accent);width:0;transition:width 1s ease .2s}
+.skill.reveal-done .bar i{width:var(--w)}
+
+/* ============ EXPERIENCE ============ */
+.xp{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.timeline{position:relative;margin-left:8px}
+.timeline::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:1px;background:var(--line)}
+.entry{position:relative;padding:0 0 44px 40px}
+.entry:last-child{padding-bottom:0}
+.entry::before{
+  content:"";position:absolute;left:-5px;top:8px;width:11px;height:11px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--accent);
+}
+.entry.now::before{background:var(--accent);box-shadow:0 0 0 4px var(--accent-ghost)}
+.entry .when{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.entry h3{font-size:1.2rem;margin-top:6px}
+.entry .co{color:var(--muted);font-size:.92rem;margin-top:2px}
+.entry ul{margin-top:14px;padding-left:18px;font-size:.94rem}
+.entry ul li{margin-bottom:6px}
+.edu-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:56px}
+.edu{
+  border:1px solid var(--line);border-radius:var(--radius);padding:24px;background:var(--bg);
+}
+.edu .when{font-family:var(--mono);font-size:.72rem;color:var(--accent);letter-spacing:.1em}
+.edu h3{font-size:1.02rem;margin-top:8px}
+.edu p{font-size:.88rem;color:var(--muted);margin-top:4px}
+
+/* ============ PROJECTS ============ */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.proj{
+  border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);
+  padding:22px;transition:.25s;position:relative;overflow:hidden;
+}
+.proj::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);
+  transform:scaleY(0);transform-origin:top;transition:transform .25s;
+}
+.proj:hover{border-color:var(--accent)}
+.proj:hover::before{transform:scaleY(1)}
+.proj .loc{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.proj h3{font-size:1rem;margin-top:8px;font-weight:600}
+.proj p{font-size:.8rem;color:var(--muted);margin-top:4px;font-family:var(--mono);letter-spacing:.04em}
+
+/* ============ REVIT LIBRARY ============ */
+.lib{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.vid-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.vid{
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--bg);
+  transition:.25s;
+}
+.vid:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 16px 36px hsla(250,60%,50%,.10)}
+.vid .thumb{position:relative;aspect-ratio:16/9;background:var(--accent-ghost)}
+.vid .thumb img{width:100%;height:100%;object-fit:cover}
+.vid .thumb .play{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+}
+.vid .thumb .play span{
+  width:52px;height:52px;border-radius:50%;background:hsla(250,24%,12%,.72);
+  display:flex;align-items:center;justify-content:center;transition:.2s;
+}
+.vid:hover .thumb .play span{background:var(--accent)}
+.vid .thumb .play svg{width:18px;height:18px;fill:#fff;margin-left:3px}
+.vid .meta{padding:18px 20px}
+.vid .meta .tag{font-size:.66rem}
+.vid .meta h3{font-size:.98rem;margin-top:8px;font-weight:600}
+
+/* ============ CONTACT ============ */
+.contact-box{
+  border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);
+  padding:56px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;
+}
+.contact-box h2{font-size:clamp(1.7rem,3.2vw,2.4rem)}
+.contact-box p{margin-top:12px;max-width:46ch}
+.socials{display:flex;flex-direction:column;gap:12px}
+.socials a{
+  font-family:var(--mono);font-size:.8rem;letter-spacing:.08em;
+  border:1px solid var(--line);border-radius:var(--radius);padding:13px 22px;
+  display:flex;align-items:center;gap:10px;transition:.2s;background:var(--bg);
+}
+.socials a:hover{border-color:currentColor}
+.s-mail:hover{color:#EA4335}   /* Gmail red */
+.s-phone:hover{color:#1FA855}  /* call green */
+.s-in:hover{color:#0A66C2}     /* LinkedIn blue */
+.s-yt:hover{color:#FF0000}     /* YouTube red */
+.socials svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}
+
+/* ============ FOOTER — drawing title block ============ */
+footer{border-top:1px solid var(--line);background:var(--surface)}
+.tblock{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;
+}
+.tblock div{padding:18px 20px;border-right:1px solid var(--line);color:var(--muted)}
+.tblock div:last-child{border-right:none}
+.tblock b{display:block;color:var(--ink);margin-top:4px;font-weight:500}
+
+/* ============ MOBILE BOTTOM NAV — thumb friendly ============ */
+.bottom-nav{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;z-index:60;
+  grid-template-columns:repeat(6,1fr);
+  background:hsla(250,60%,99%,.92);
+  backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);
+  padding:8px 4px calc(8px + env(safe-area-inset-bottom));
+}
+.bottom-nav a{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  font-family:var(--mono);font-size:.54rem;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--muted);transition:color .2s;padding:2px 0;
+}
+.bottom-nav svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bottom-nav a.active{color:var(--accent)}
+
+/* swipe hint — mobile only */
+.swipe-hint{display:none;font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:var(--accent);margin-top:8px}
+
+/* ============ BACK TO TOP — appears after scroll ============ */
+.to-top{
+  position:fixed;right:20px;bottom:24px;z-index:55;width:44px;height:44px;
+  border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);
+  color:var(--ink);display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transform:translateY(8px);transition:.25s;
+  box-shadow:0 8px 24px hsla(250,60%,50%,.12);
+}
+.to-top.show{opacity:1;pointer-events:auto;transform:none}
+.to-top:hover{border-color:var(--accent);color:var(--accent)}
+.to-top svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ============ THEME TOGGLE ============ */
+.theme-btn{
+  width:38px;height:38px;border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--surface);color:var(--ink);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:.2s;
+}
+.theme-btn:hover{border-color:var(--accent);color:var(--accent)}
+.theme-btn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.theme-btn .sun{display:none}
+[data-theme="dark"] .theme-btn .sun{display:block}
+[data-theme="dark"] .theme-btn .moon{display:none}
+.nav-right{display:flex;align-items:center;gap:20px}
+
+/* ============ VIDEO LIGHTBOX MODAL ============ */
+.modal{
+  position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;
+  background:hsla(250,24%,6%,.82);backdrop-filter:blur(6px);padding:20px;
+}
+.modal.open{display:flex}
+.modal-box{
+  width:min(920px,100%);background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);overflow:hidden;
+}
+.modal-top{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:14px 18px;border-bottom:1px solid var(--line);
+}
+.modal-top h3{font-size:.95rem;font-weight:600;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.modal-top .yt-link{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent);white-space:nowrap;
+}
+.modal-top .yt-link:hover{text-decoration:underline}
+.modal-close{
+  width:32px;height:32px;border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--bg);color:var(--ink);cursor:pointer;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;transition:.2s;
+  font-family:var(--mono);font-size:.9rem;line-height:1;
+}
+.modal-close:hover{border-color:var(--accent);color:var(--accent)}
+.modal-frame{aspect-ratio:16/9;background:#000}
+.modal-frame iframe{width:100%;height:100%;border:0;display:block}
+body.modal-lock{overflow:hidden}
+
+/* ============ SCROLL REVEAL ============ */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.reveal.reveal-done{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+  .skill .bar i{transition:none}
+  *{transition:none!important}
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:860px){
+  .about-grid{grid-template-columns:1fr;gap:36px}
+  .portrait{max-width:340px}
+  .contact-box{grid-template-columns:1fr;padding:36px}
+  .edu-cards{grid-template-columns:1fr}
+  .tblock{grid-template-columns:1fr 1fr}
+  .tblock div{border-bottom:1px solid var(--line)}
+}
+@media (max-width:720px){
+  .nav-links{display:none}
+  .menu-btn{display:none}
+  body{padding-bottom:64px} /* space for bottom nav */
+  .bottom-nav{display:grid}
+  .to-top{bottom:calc(78px + env(safe-area-inset-bottom));right:14px}
+
+  /* video grid → swipeable slider */
+  .vid-grid{
+    display:flex;overflow-x:auto;gap:14px;padding:2px 2px 14px;
+    scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .vid-grid::-webkit-scrollbar{display:none}
+  .vid{flex:0 0 82%;scroll-snap-align:start}
+  .swipe-hint{display:inline-block}
+  .stats{grid-template-columns:1fr}
+  .stat{border-right:none;border-bottom:1px solid var(--line)}
+  .stat:last-child{border-bottom:none}
+  .hero{padding:130px 0 80px}
+  section{padding:72px 0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#home">Thiyagarajan<span>.</span></a>
+    <div class="nav-right">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#library">Revit Lib</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode">
+        <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="bottom-nav" aria-label="Mobile navigation">
+  <a href="#home" class="active"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Home</a>
+  <a href="#about"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c1.5-3.5 4.2-5 7.5-5s6 1.5 7.5 5"/></svg>About</a>
+  <a href="#skills"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>Skills</a>
+  <a href="#portfolio"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Work</a>
+  <a href="#library"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5-6-3.5z"/></svg>Videos</a>
+  <a href="#contact"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Contact</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero grid-bg" id="home">
+  <i class="cross" style="top:120px;right:12%"></i>
+  <i class="cross" style="bottom:90px;left:6%"></i>
+  <div class="wrap">
+    <span class="tag reveal">Bangalore, India · HVAC / ACMV · MEP</span>
+    <h1 class="reveal">Hi, I'm Thiyagarajan Gurusamy — <em>BIM Modeler (Mech)</em></h1>
+    <div class="dim reveal">
+      <span class="rule"></span>
+      <span>REVIT · NAVISWORKS · ACC / BIM 360 · ENSCAPE · AUTOCAD</span>
+    </div>
+    <p class="lead reveal">
+      HVAC/ACMV draftsman with 10+ years of experience creating schematic, detailed and
+      as-built drawings using Revit and CAD — coordinated, clash-free models delivered
+      to project BIM Execution Plans and industry standards.
+    </p>
+    <div class="hero-cta reveal">
+      <a class="btn btn-solid" href="#contact">Contact me</a>
+      <a class="btn btn-line" href="#projects">View projects</a>
+    </div>
+
+    <div class="stats reveal">
+      <div class="stat"><b>10<i>+</i></b><small>Years experience</small></div>
+      <div class="stat"><b>14<i>+</i></b><small>Projects delivered</small></div>
+      <div class="stat"><b>05</b><small>Companies worked</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag">01 — About me</span>
+      <h2>My introduction</h2>
+    </div>
+    <div class="about-grid">
+      <figure class="portrait reveal">
+        <img src="images/thiyagu.jpg" alt="Thiyagarajan Gurusamy">
+        <figcaption><span>REF: TG-2026</span><span>BLR / IN</span></figcaption>
+      </figure>
+      <div class="about-copy reveal">
+        <p>
+          I am an experienced <strong>HVAC/ACMV draftsman and Mechanical BIM Modeler</strong>
+          creating detailed schematic drawings, shop drawings and as-built documentation
+          using <strong>Revit and AutoCAD</strong> — covering HVAC, firefighting, LPG and
+          water supply services.
+        </p>
+        <p>
+          I develop accurate <strong>2D and 3D BIM models (LOD 100 &amp; 300)</strong> in
+          compliance with project BIM Execution Plans, build Revit project templates,
+          run <strong>clash detection in Navisworks Manage</strong>, and coordinate with
+          architects, structural and MEP teams to deliver clash-free models.
+        </p>
+        <p>
+          Beyond modeling, I conduct internal model audits and QC checks, manage drawing
+          revisions, and <strong>train and mentor junior staff</strong> in Revit, Navisworks
+          and project workflows — across projects in the UAE, KSA, Australia and India.
+        </p>
+        <div class="lang-strip">Languages — <b>English</b> · <b>Tamil</b> · <b>Telugu</b> · <b>Kannada</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="grid-bg">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag">02 — Skills</span>
+      <h2>My technical level</h2>
+      <p>BIM platforms and engineering knowledge I work with daily.</p>
+    </div>
+
+    <div class="skill-sub reveal">BIM software knowledge</div>
+    <div class="skill-grid">
+      <div class="skill reveal" style="--w:95%"><span class="lvl">Expert</span><h3>Revit</h3><p>MEP modeling, families, templates</p><div class="bar"><i></i></div></div>
+      <div class="skill reveal" style="--w:95%"><span class="lvl">Expert</span><h3>ACC / BIM 360</h3><p>Cloud collaboration &amp; doc control</p><div class="bar"><i></i></div></div>
+      <div class="skill reveal" style="--w:95%"><span class="lvl">Expert</span><h3>Microsoft Office</h3><p>BOQs, schedules, documentation</p><div class="bar"><i></i></div></div>
+      <div class="skill reveal" style="--w:72%"><span class="lvl">Intermediate</span><h3>Navisworks Manage</h3><p>Clash detection &amp; coordination</p><div class="bar"><i></i></div></div>
+      <div class="skill reveal" style="--w:72%"><span class="lvl">Intermediate</span><h3>Enscape</h3><p>Real-time 3D rendering</p><div class="bar"><i></i></div></div>
+      <div class="skill reveal" style="--w:72%"><span class="lvl">Intermediate</span><h3>AutoCAD</h3><p>2D shop drawings &amp; as-builts</p><div class="bar"><i></i></div></div>
+    </div>
+
+    <div class="skill-sub reveal">Technical knowledge</div>
+    <div class="skill-grid">
+      <div class="skill reveal" style="--w:95%"><span class="lvl">Expert</span><h3>Duct Sizing</h3><p>Sizing &amp; resizing to site conditions</p><div class="bar"><i></i></div></div>
+      <div class="skill reveal" style="--w:95%"><span class="lvl">Expert</span><h3>Pipe Size Calculation</h3><p>Chilled water &amp; piping systems</p><div class="bar"><i></i></div></div>
+      <div class="skill reveal" style="--w:72%"><span class="lvl">Intermediate</span><h3>Equipment Selection</h3><p>AHU, FCU &amp; HRW selection</p><div class="bar"><i></i></div></div>
+      <div class="skill reveal" style="--w:45%"><span class="lvl">Basic</span><h3>Heat Load Calculation</h3><p>Cooling load estimation</p><div class="bar"><i></i></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="xp" id="portfolio">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag">03 — Portfolio</span>
+      <h2>My journey</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="entry now reveal">
+        <span class="when">Jul 2025 — Present · Bangalore</span>
+        <h3>BIM Modeler / BIM Lead — Mech</h3>
+        <p class="co">Mirage AEC</p>
+        <ul>
+          <li>Prepare and update technical drawings using Revit and AutoCAD for MEP services — HVAC, firefighting, LPG, water supply.</li>
+          <li>Develop accurate 2D and 3D BIM models (LOD 100 &amp; 300) per project BIM Execution Plans; create project-specific Revit templates.</li>
+          <li>Perform clash detection in Navisworks Manage and coordinate with multidisciplinary teams to resolve design conflicts.</li>
+          <li>Conduct internal model audits and QC checks; manage drawing revisions and as-built documentation.</li>
+          <li>Train and mentor junior staff in Revit, Navisworks and project workflows.</li>
+        </ul>
+      </div>
+
+      <div class="entry reveal">
+        <span class="when">Feb 2023 — Jun 2025 · Sivakasi</span>
+        <h3>BIM Modeler — MEP</h3>
+        <p class="co">Innowell Engineering International Pvt Ltd</p>
+        <ul>
+          <li>Converted consultant-issued 2D designs into detailed 3D BIM models.</li>
+          <li>Supported production of shop drawings and as-built documentation from BIM models.</li>
+          <li>Collaborated with architects, structural and MEP teams for coordinated, clash-free models.</li>
+        </ul>
+      </div>
+
+      <div class="entry reveal">
+        <span class="when">Nov 2016 — Mar 2022 · Bangalore</span>
+        <h3>HVAC Draftsman</h3>
+        <p class="co">KM Aircon Pvt Ltd</p>
+        <ul>
+          <li>Prepared HVAC shop drawings per consultant requirements and obtained approvals.</li>
+          <li>Extracted quantities &amp; sizes from shop drawings; supported billing and documentation.</li>
+          <li>Coordinated with site teams; prepared as-builts and handover documents.</li>
+        </ul>
+      </div>
+
+      <div class="entry reveal">
+        <span class="when">Jun 2016 — Nov 2016 · Bangalore</span>
+        <h3>HVAC CAD Draftsman &amp; Site Engineer</h3>
+        <p class="co">TF Air System Pvt Ltd</p>
+        <ul>
+          <li>HVAC shop drawings using AutoCAD 2D; BOQ &amp; quantity schedules, running bills and handover docs.</li>
+        </ul>
+      </div>
+
+      <div class="entry reveal">
+        <span class="when">Dec 2015 — May 2016 · Chennai</span>
+        <h3>HVAC CAD Draftsman Trainee</h3>
+        <p class="co">Jersey Engineering Solutions Pvt Ltd</p>
+        <ul>
+          <li>HVAC shop drawings using AutoCAD 2D; quantity schedules for HVAC services.</li>
+        </ul>
+      </div>
+
+      <div class="entry reveal">
+        <span class="when">May 2014 — Nov 2015 · Chennai</span>
+        <h3>Application Assistant</h3>
+        <p class="co">Jersey Engineering Solutions Pvt Ltd</p>
+        <ul>
+          <li>AHU, FCU &amp; HRW selection per HVAC standards; technical data sheets, costing and offers.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="edu-cards">
+      <div class="edu reveal">
+        <span class="when">2026 — Pursuing</span>
+        <h3>B.E. — Mechanical Engineering (Part-Time)</h3>
+        <p>Vinayaka Mission's Kirupananda Variyar Engineering College</p>
+      </div>
+      <div class="edu reveal">
+        <span class="when">Jul 2011 — Apr 2014 · Rajapalayam</span>
+        <h3>Diploma in Mechanical Engineering (R&amp;AC)</h3>
+        <p>P.A.C.R Polytechnic College</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="grid-bg">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag">04 — Projects</span>
+      <h2>Project register</h2>
+      <p>Projects I have worked on across the UAE, KSA and Australia.</p>
+    </div>
+    <div class="proj-grid">
+      <div class="proj reveal"><span class="loc">Dubai · UAE</span><h3>Dubai Creek Gardens — Al Jaddaf</h3><p>Apartment project</p></div>
+      <div class="proj reveal"><span class="loc">Dubai · UAE</span><h3>Keturah Resort — Plot 16</h3><p>Apartment project</p></div>
+      <div class="proj reveal"><span class="loc">Dubai · UAE</span><h3>EMAAR — Avarra by Palace Residences</h3><p>Apartment project</p></div>
+      <div class="proj reveal"><span class="loc">Ras Al-Khaimah · UAE</span><h3>HIVE Buildings</h3><p>Apartment project</p></div>
+      <div class="proj reveal"><span class="loc">Dubai · UAE</span><h3>NSHAMA P92 — Augusta</h3><p>Apartment project</p></div>
+      <div class="proj reveal"><span class="loc">Dubai · UAE</span><h3>NSHAMA P62 — The Baltimore</h3><p>Apartment project</p></div>
+      <div class="proj reveal"><span class="loc">Dubai · UAE</span><h3>BNW — Aqua Arc Residence</h3><p>Apartment project</p></div>
+      <div class="proj reveal"><span class="loc">Dubai · UAE</span><h3>EMAAR — Twin Tower (B0007)</h3><p>Apartment project</p></div>
+      <div class="proj reveal"><span class="loc">KSA</span><h3>KAFD Basement (B1–B5) Car Parks</h3><p>Mall project</p></div>
+      <div class="proj reveal"><span class="loc">Dubai · UAE</span><h3>EMAAR — Address the Bay</h3><p>Apartment project</p></div>
+      <div class="proj reveal"><span class="loc">Dubai · UAE</span><h3>EMAAR — Mirage — Elvira Plot 8</h3><p>Apartment project</p></div>
+      <div class="proj reveal"><span class="loc">Australia</span><h3>McNab Avenue</h3><p>Apartment project</p></div>
+      <div class="proj reveal"><span class="loc">Australia</span><h3>Greystar Air &amp; Water Schematic</h3><p>Schematic drawings</p></div>
+      <div class="proj reveal"><span class="loc">Australia</span><h3>Kensington</h3><p>Apartment project</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIT LIBRARY -->
+<section class="lib" id="library">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag">05 — Revit Library</span>
+      <h2>Exercise videos</h2>
+      <p>My Revit exercise videos are displayed in this library.</p>
+      <span class="swipe-hint">&larr; SWIPE TO BROWSE &rarr;</span>
+    </div>
+    <div class="vid-grid">
+      <a class="vid reveal" data-id="IyiApRoxOZA" href="https://www.youtube.com/watch?v=IyiApRoxOZA" target="_blank" rel="noopener">
+        <div class="thumb"><img src="images/p1.png" alt="IT office Revit Architecture render"><span class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></span></div>
+        <div class="meta"><span class="tag">Enscape render</span><h3>IT Office — Revit Architecture Model</h3></div>
+      </a>
+      <a class="vid reveal" data-id="T3R4pFSrKK4" href="https://www.youtube.com/watch?v=T3R4pFSrKK4" target="_blank" rel="noopener">
+        <div class="thumb"><img src="images/p2.png" alt="IT office Revit HVAC render"><span class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></span></div>
+        <div class="meta"><span class="tag">Enscape render</span><h3>IT Office — Revit HVAC Model</h3></div>
+      </a>
+      <a class="vid reveal" data-id="VdpXbgZcAhM" href="https://www.youtube.com/watch?v=VdpXbgZcAhM" target="_blank" rel="noopener">
+        <div class="thumb"><img src="images/p3.png" alt="Data center Revit render"><span class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></span></div>
+        <div class="meta"><span class="tag">Enscape render</span><h3>Data Center — Revit Model</h3></div>
+      </a>
+      <a class="vid reveal" data-id="CUtYS7ydU24" href="https://www.youtube.com/watch?v=CUtYS7ydU24" target="_blank" rel="noopener">
+        <div class="thumb"><img src="images/p4.png" alt="Square diffuser plenum box family"><span class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></span></div>
+        <div class="meta"><span class="tag">Family creation</span><h3>Square Diffuser Plenum Box</h3></div>
+      </a>
+      <a class="vid reveal" data-id="TnC0Pyy8FEY" href="https://www.youtube.com/watch?v=TnC0Pyy8FEY" target="_blank" rel="noopener">
+        <div class="thumb"><img src="images/p5.png" alt="False floor grille family"><span class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></span></div>
+        <div class="meta"><span class="tag">Family creation</span><h3>Data Center False Floor Grille</h3></div>
+      </a>
+      <a class="vid reveal" data-id="IGk04rdJhpM" href="https://www.youtube.com/watch?v=IGk04rdJhpM" target="_blank" rel="noopener">
+        <div class="thumb"><img src="images/p6.png" alt="4-way square diffuser family"><span class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></span></div>
+        <div class="meta"><span class="tag">Family creation</span><h3>4-Way Square Diffuser</h3></div>
+      </a>
+      <a class="vid reveal" data-id="IfmRRJTcpWA" href="https://www.youtube.com/watch?v=IfmRRJTcpWA" target="_blank" rel="noopener">
+        <div class="thumb"><img src="images/p7.jpg" alt="Spoon and fork sterilizer family"><span class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></span></div>
+        <div class="meta"><span class="tag">Family creation</span><h3>Spoon &amp; Fork Sterilizer</h3></div>
+      </a>
+      <a class="vid reveal" data-id="CXOF225hYt0" href="https://www.youtube.com/watch?v=CXOF225hYt0" target="_blank" rel="noopener">
+        <div class="thumb"><img src="images/p8.png" alt="IT office project 2 render"><span class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></span></div>
+        <div class="meta"><span class="tag">Enscape render</span><h3>IT Office #2 — Revit Architecture Model</h3></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="grid-bg">
+  <div class="wrap">
+    <div class="contact-box reveal">
+      <div>
+        <span class="tag">06 — Contact</span>
+        <h2>Get in touch</h2>
+        <p>Based in Bangalore, India. Open to HVAC/MEP BIM modeling, shop drawing and Revit family work — reach me by email, phone or LinkedIn.</p>
+      </div>
+      <div class="socials">
+        <a class="s-mail" href="mailto:thiyaguklpt@gmail.com">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          thiyaguklpt@gmail.com
+        </a>
+        <a class="s-phone" href="tel:+918553066180">
+          <svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.36 11.36 0 0 0 3.58.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.58 1 1 0 0 1-.25 1.01l-2.2 2.2z"/></svg>
+          +91 85530 66180
+        </a>
+        <a class="s-in" href="https://www.linkedin.com/in/thiyagarajan-gurusamy/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+          LinkedIn
+        </a>
+        <a class="s-yt" href="https://www.youtube.com/channel/UCUXX5CTol52KOsA2qpCwtuw" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"/></svg>
+          YouTube
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO LIGHTBOX MODAL -->
+<div class="modal" id="videoModal" role="dialog" aria-modal="true" aria-label="Video player">
+  <div class="modal-box">
+    <div class="modal-top">
+      <h3 id="modalTitle">Video</h3>
+      <a class="yt-link" id="modalYt" href="#" target="_blank" rel="noopener">Watch on YouTube ↗</a>
+      <button class="modal-close" id="modalClose" aria-label="Close video">✕</button>
+    </div>
+    <div class="modal-frame" id="modalFrame"></div>
+  </div>
+</div>
+
+<!-- BACK TO TOP -->
+<a href="#home" class="to-top" id="toTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+</a>
+
+<!-- FOOTER — drawing title block -->
+<footer>
+  <div class="wrap tblock">
+    <div>Project<b>thiyagarajan.me — Portfolio</b></div>
+    <div>Drawn by<b>Thiyagarajan G.</b></div>
+    <div>Location<b>Bangalore, IN</b></div>
+    <div>Rev<b>2026 · B</b></div>
+  </div>
+</footer>
+
+<script>
+// ===== theme toggle — saves choice, respects phone dark mode =====
+const root=document.documentElement;
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  const next=root.getAttribute('data-theme')==='dark'?'light':'dark';
+  root.setAttribute('data-theme',next);
+  localStorage.setItem('theme',next);
+});
+
+// ===== video lightbox — iframe loads only on click (lazy) =====
+const modal=document.getElementById('videoModal');
+const frame=document.getElementById('modalFrame');
+const mTitle=document.getElementById('modalTitle');
+const mYt=document.getElementById('modalYt');
+function openVideo(id,title){
+  mTitle.textContent=title;
+  mYt.href='https://www.youtube.com/watch?v='+id;
+  frame.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0&modestbranding=1" title="'+title+'" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+  modal.classList.add('open');
+  document.body.classList.add('modal-lock');
+}
+function closeVideo(){
+  modal.classList.remove('open');
+  document.body.classList.remove('modal-lock');
+  frame.innerHTML=''; // stop playback & free memory
+}
+document.querySelectorAll('.vid[data-id]').forEach(card=>{
+  card.addEventListener('click',(e)=>{
+    e.preventDefault();
+    openVideo(card.dataset.id, card.querySelector('h3').textContent);
+  });
+});
+document.getElementById('modalClose').addEventListener('click',closeVideo);
+modal.addEventListener('click',(e)=>{ if(e.target===modal) closeVideo(); });
+addEventListener('keydown',(e)=>{ if(e.key==='Escape'&&modal.classList.contains('open')) closeVideo(); });
+
+// back to top — show after 600px scroll
+const toTop=document.getElementById('toTop');
+addEventListener('scroll',()=>{toTop.classList.toggle('show',scrollY>600)},{passive:true});
+
+// bottom nav scroll spy — highlights the section currently in view
+const spyLinks=document.querySelectorAll('.bottom-nav a');
+const spy=new IntersectionObserver((es)=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      spyLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));
+    }
+  });
+},{rootMargin:'-40% 0px -55% 0px'});
+spyLinks.forEach(a=>{
+  const sec=document.querySelector(a.getAttribute('href'));
+  if(sec)spy.observe(sec);
+});
+
+// scroll reveal
+const io=new IntersectionObserver((es)=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('reveal-done'); io.unobserve(e.target);} });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
